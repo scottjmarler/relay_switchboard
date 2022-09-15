@@ -1,4 +1,10 @@
 [theme]
 base="dark"
 
-port='/dev/cu.usbmodem112201'
+
+[server]
+port = 8501
+
+[browser]
+serverAddress = "http://192.168.4.73:8501"
+serverPort='8501'
