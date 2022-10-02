@@ -9,7 +9,7 @@ import gauges as g
 
 # Initiate Communication with Serial connection
 
-Arduino = serial.Serial('/dev/cu.usbmodem112201',9600, timeout=.1)      #Create Serial port object called ArduinoUnoSerialData time.sleep(1.5)                                                             #wait for 2 secounds for the communication to get established
+Arduino = serial.Serial('/dev/cu.usbmodem1101',9600, timeout=.1)      #Create Serial port object called ArduinoUnoSerialData time.sleep(1.5)                                                             #wait for 2 secounds for the communication to get established
 
 # Sidebar Tips
 st.sidebar.header("Rockville Junction")
