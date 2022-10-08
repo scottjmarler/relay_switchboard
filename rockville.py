@@ -6,10 +6,13 @@ import streamlit as st
 from PIL import Image
 import plotly.graph_objects as go
 import gauges as g
+from streamlit_webrtc import webrtc_streamer
+import av
+import cv2
 
 # Initiate Communication with Serial connection
 
-Arduino = serial.Serial('/dev/cu.usbmodem1101',9600, timeout=.1)      #Create Serial port object called ArduinoUnoSerialData time.sleep(1.5)                                                             #wait for 2 secounds for the communication to get established
+# Arduino = serial.Serial('/dev/cu.usbmodem1101',9600, timeout=.1)      #Create Serial port object called ArduinoUnoSerialData time.sleep(1.5)                                                             #wait for 2 secounds for the communication to get established
 
 # Sidebar Tips
 st.sidebar.header("Rockville Junction")
@@ -83,8 +86,18 @@ with tab3:
 
 
 with tab4:
-        image_of_layout = Image.open('expansion.png')
-        st.image(image_of_layout)
+        threshold1 = st.slider("Threshold1", min_value=0, max_value=1000, step=1, value=100)
+        threshold2 = st.slider("Threshold2", min_value=0, max_value=1000, step=1, value=200)
+
+
+        def callback(frame):
+                img = frame.to_ndarray(format="bgr24")
+                img = cv2.cvtColor(cv2.Canny(img, threshold1, threshold2), cv2.COLOR_GRAY2BGR)
+
+                return av.VideoFrame.from_ndarray(img, format="bgr24")
+
+
+        webrtc_streamer(key="example", video_frame_callback=callback)
 
 
 with tab5:
@@ -99,82 +112,82 @@ with tab5:
                 st.write(g.AC_2_amps)
                 st.write(g.DC_1_amps)  
 
-while Arduino: 
+# while Arduino: 
 
-        if m1: 
-                Arduino.write(("m1"+m1).encode()) 
-                Arduino.write(("\n").encode())
+#         if m1: 
+#                 Arduino.write(("m1"+m1).encode()) 
+#                 Arduino.write(("\n").encode())
                 
-        if m2: 
-                Arduino.write(("m2"+m2).encode())
-                Arduino.write(("\n").encode())
+#         if m2: 
+#                 Arduino.write(("m2"+m2).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if m3:
-                Arduino.write(("m3"+m3).encode())
-                Arduino.write(("\n").encode())
+#         if m3:
+#                 Arduino.write(("m3"+m3).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if s1:
-                Arduino.write(("s1"+s1).encode())
-                Arduino.write(("\n").encode())
+#         if s1:
+#                 Arduino.write(("s1"+s1).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if s2:
-                Arduino.write(("s2"+s2).encode())
-                Arduino.write(("\n").encode())    
+#         if s2:
+#                 Arduino.write(("s2"+s2).encode())
+#                 Arduino.write(("\n").encode())    
                 
-        if s3:
-                Arduino.write(("s3"+s3).encode())
-                Arduino.write(("\n").encode())
+#         if s3:
+#                 Arduino.write(("s3"+s3).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if s4:
-                Arduino.write(("s4"+s4).encode())
-                Arduino.write(("\n").encode())
+#         if s4:
+#                 Arduino.write(("s4"+s4).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if s5:
-                Arduino.write(("s5"+s5).encode())
-                Arduino.write(("\n").encode())
+#         if s5:
+#                 Arduino.write(("s5"+s5).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if s6:
-                Arduino.write(("s6"+s6).encode())
-                Arduino.write(("\n").encode())
+#         if s6:
+#                 Arduino.write(("s6"+s6).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if s7:
-                Arduino.write(("s7"+s7).encode())
-                Arduino.write(("\n").encode())
+#         if s7:
+#                 Arduino.write(("s7"+s7).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t1:
-                Arduino.write(("Switch1"+t1).encode())
-                Arduino.write(("\n").encode())
+#         if t1:
+#                 Arduino.write(("Switch1"+t1).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t2:
-                Arduino.write(("Switch2"+t2).encode())
-                Arduino.write(("\n").encode())
+#         if t2:
+#                 Arduino.write(("Switch2"+t2).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t3:
-                Arduino.write(("Switch3"+t3).encode())
-                Arduino.write(("\n").encode())
+#         if t3:
+#                 Arduino.write(("Switch3"+t3).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t4:
-                Arduino.write(("Switch4"+t4).encode())
-                Arduino.write(("\n").encode())
+#         if t4:
+#                 Arduino.write(("Switch4"+t4).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t5:
-                Arduino.write(("Switch5"+t5).encode())
-                Arduino.write(("\n").encode())
+#         if t5:
+#                 Arduino.write(("Switch5"+t5).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t6:
-                Arduino.write(("Switch6"+t6).encode())
-                Arduino.write(("\n").encode())
+#         if t6:
+#                 Arduino.write(("Switch6"+t6).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t7:
-                Arduino.write(("Switch7"+t7).encode())
-                Arduino.write(("\n").encode())
+#         if t7:
+#                 Arduino.write(("Switch7"+t7).encode())
+#                 Arduino.write(("\n").encode())
                 
-        if t8:
-                Arduino.write(("Switch8"+t8).encode())
-                Arduino.write(("\n").encode())
+#         if t8:
+#                 Arduino.write(("Switch8"+t8).encode())
+#                 Arduino.write(("\n").encode())
                 
         
-        break
+#         break
         
 @st.cache(suppress_st_warning=True)
 def saver():
